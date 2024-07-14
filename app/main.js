@@ -8,7 +8,7 @@ const server = net.createServer((socket) => {
     const url = request.split(' ')[1];
 
     if (url == "/") {
-        socket.write("HTTP/1.1 200 OK\r\n");
+        socket.write("HTTP/1.1 200 OK\r\n\r\n");
     } else if (url.includes("/echo")) {
         const content = url.split('/echo/')[1];
         socket.write(
