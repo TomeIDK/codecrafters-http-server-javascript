@@ -27,6 +27,10 @@ const server = net.createServer((socket) => {
             `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}`
           );
         }
+      } else {
+        socket.write(
+          `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}`
+        );
       }
     } else if (url.startsWith("/files/") && method === "GET") {
       const directory = process.argv[3];
