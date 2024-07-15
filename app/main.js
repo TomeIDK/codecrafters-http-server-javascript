@@ -13,9 +13,16 @@ const server = net.createServer((socket) => {
       socket.write("HTTP/1.1 200 OK\r\n\r\n");
     } else if (url.includes("/echo")) {
       const content = url.split("/echo/")[1];
-      socket.write(
-        `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}\r\n\r\n`
-      );
+
+      if (headers.includes("Accept-Encoding: gzip")) {
+        socket.write(
+          `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\nContent-Encoding: gzip\r\n\r\n${userAgent}`
+        );
+      } else {
+        socket.write(
+          `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}\r\n\r\n`
+        );
+      }
     } else if (url.startsWith("/files/") && method === "GET") {
       const directory = process.argv[3];
       const filename = url.split("/files")[1];
@@ -32,10 +39,7 @@ const server = net.createServer((socket) => {
       socket.write(
         `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`
       );
-    } else if (
-      url.startsWith("/files/") &&
-      method === "POST"
-    ) {
+    } else if (url.startsWith("/files/") && method === "POST") {
       const fileName = process.argv[3] + "/" + url.substring(7);
 
       const body = request.split("\r\n")[request.split("\r\n").length - 1];
