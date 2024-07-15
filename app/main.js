@@ -18,7 +18,7 @@ const server = net.createServer((socket) => {
       if (headers[2].startsWith("Accept-Encoding: ")) {
         const encodings = headers[2].split("Accept-Encoding: ")[1].split(",");
         console.log("encs: " + encodings);
-        console.log("encs check: " + encodings.includes("gzip"));
+        console.log("encs check:" + encodings[1]);
         if (encodings.includes("gzip")) {
           socket.write(
             `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\nContent-Encoding: gzip\r\n\r\n${content}`
