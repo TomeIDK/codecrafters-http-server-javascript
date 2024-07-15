@@ -1,6 +1,6 @@
-const { log } = require("console");
 const fs = require("fs");
 const net = require("net");
+const zlib = require("zlib");
 
 const server = net.createServer((socket) => {
   // Request
@@ -16,11 +16,11 @@ const server = net.createServer((socket) => {
       const content = url.split("/echo/")[1];
       if (headers[2].startsWith("Accept-Encoding: ")) {
         const encodings = headers[2].split("Accept-Encoding: ")[1].split(",");
-        console.log("encs: " + encodings);
-        console.log("encs check:" + encodings[1]);
         if (encodings.includes(" gzip") || encodings.includes("gzip")) {
+          const bodyEncoded = zlib.gzipSync(content);
+          const bodyEncodedLength = bodyEncoded.length;
           socket.write(
-            `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\nContent-Encoding: gzip\r\n\r\n${content}`
+            `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${bodyEncodedLength}\r\nContent-Encoding: gzip\r\n\r\n${bodyEncoded}`
           );
         } else {
           socket.write(
