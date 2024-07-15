@@ -39,7 +39,7 @@ const server = net.createServer((socket) => {
       const fileName = process.argv[3] + "/" + url.substring(7);
 
       const body = request[request.length - 1]
-      fs.writeFileSync(filename, body);
+      fs.writeFileSync(fileName, body);
       socket.write("HTTP/1.1 201 CREATED\r\n\r\n");
     } else {
       socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
