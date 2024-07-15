@@ -36,10 +36,10 @@ const server = net.createServer((socket) => {
       url.startsWith("/files/") &&
       method === "POST"
     ) {
-      let fileName = url.split("/")[2];
-      const filePath = FILES_DIR + fileName;
-      const file = data.toString("utf-8").split("\r\n\r\n")[1];
-      fs.writeFileSync(filePath, file);
+      const fileName = process.argv[3] + "/" + url.substring(7);
+
+      const body = request[request.length - 1]
+      fs.writeFileSync(filename, body);
       socket.write("HTTP/1.1 201 CREATED\r\n\r\n");
     } else {
       socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
