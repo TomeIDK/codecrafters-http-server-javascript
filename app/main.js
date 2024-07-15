@@ -5,7 +5,8 @@ const server = net.createServer((socket) => {
   // Request
   socket.on("data", (data) => {
     const request = data.toString();
-    const [method, url] = request[0].split(" ");
+    const url = request.split(" ")[1];
+    const method = request.split(" ")[0];
     const headers = request.split("\r\n");
 
     if (url == "/") { // GET
@@ -31,7 +32,7 @@ const server = net.createServer((socket) => {
       socket.write(
         `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`
       );
-    } else if (url.startsWith("/files/") && method === "POST"){
+    } else if (url.startsWith("/files/") && method === "POST") {
       const filename = process.argv[3] + "/" + url.substring(7);
 
       const req = data.toString().split("\r\n");
