@@ -38,7 +38,7 @@ const server = net.createServer((socket) => {
     ) {
       const fileName = process.argv[3] + "/" + url.substring(7);
 
-      const body = request[request.length - 1]
+      const body = request.split("\r\n")[request.split("\r\n").length - 1];
       fs.writeFileSync(fileName, body);
       socket.write("HTTP/1.1 201 Created\r\n\r\n");
     } else {
