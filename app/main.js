@@ -15,10 +15,10 @@ const server = net.createServer((socket) => {
     } else if (url.includes("/echo")) {
       const content = url.split("/echo/")[1];
       if (headers[2].startsWith("Accept-Encoding: ")) {
-        const encodings = headers[2].split("Accept-Encoding: ")[1].split(",").trim();
+        const encodings = headers[2].split("Accept-Encoding: ")[1].split(",");
         console.log("encs: " + encodings);
         console.log("encs check:" + encodings[1]);
-        if (encodings.includes("gzip")) {
+        if (encodings.includes("gzip".trim())) {
           socket.write(
             `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\nContent-Encoding: gzip\r\n\r\n${content}`
           );
