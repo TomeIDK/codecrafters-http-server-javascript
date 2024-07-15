@@ -5,12 +5,12 @@ const server = net.createServer((socket) => {
   // Request
   socket.on("data", (data) => {
     const request = data.toString();
-    const [method, url, protocol] = request[0].split(" ");
+    const [method, url] = request[0].split(" ");
     const headers = request.split("\r\n");
 
     if (url == "/") { // GET
       socket.write("HTTP/1.1 200 OK\r\n\r\n");
-    } else if (url.includes("/echo")) { // GET echo endpoint
+    } else if (url.startsWith("/echo")) { // GET echo endpoint
       const content = url.split("/echo/")[1];
       socket.write(
         `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}\r\n\r\n`
