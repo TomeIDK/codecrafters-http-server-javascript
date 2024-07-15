@@ -37,7 +37,7 @@ const server = net.createServer((socket) => {
       );
     } else if (
       url.startsWith("/files") &&
-      data.toString().split(" "[0] === "POST")
+      request.startsWith("POST ")
     ) {
       let fileName = url.split("/")[2];
       const filePath = FILES_DIR + fileName;
