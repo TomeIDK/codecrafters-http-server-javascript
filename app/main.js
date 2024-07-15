@@ -20,8 +20,9 @@ const server = net.createServer((socket) => {
           const bodyEncoded = zlib.gzipSync(content);
           const bodyEncodedLength = bodyEncoded.length;
           socket.write(
-            `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${bodyEncodedLength}\r\nContent-Encoding: gzip\r\n\r\n${bodyEncoded}`
+            `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${bodyEncodedLength}\r\nContent-Encoding: gzip\r\n\r\n`
           );
+          socket.write(bodyEncoded);
         } else {
           socket.write(
             `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}`
