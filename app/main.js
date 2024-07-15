@@ -16,11 +16,11 @@ const server = net.createServer((socket) => {
 
       if (headers.includes("Accept-Encoding: gzip")) {
         socket.write(
-          `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\nContent-Encoding: gzip\r\n\r\n${userAgent}`
+          `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\nContent-Encoding: gzip\r\n\r\n${content}`
         );
       } else {
         socket.write(
-          `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}\r\n\r\n`
+          `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}`
         );
       }
     } else if (url.startsWith("/files/") && method === "GET") {
